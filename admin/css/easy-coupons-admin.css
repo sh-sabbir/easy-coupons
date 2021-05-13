@@ -2,3 +2,26 @@
  * All of the CSS for your admin-specific functionality should be
  * included in this file.
  */
+
+ .sc-box{
+    position: relative;
+    min-width: 255px;
+    border: 1px solid #c3c4c7;
+    box-shadow: 0 1px 1px rgb(0 0 0 / 4%);
+    background: #fff;
+    margin-bottom: 20px;
+}
+
+.sc-box .sc-header{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #c3c4c7;
+}
+.sc-box .inside{
+    padding: 10px
+}
+
+.sc-box .inside input{
+    width: 100%;
+}

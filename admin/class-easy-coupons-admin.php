@@ -57,6 +57,9 @@ class Easy_Coupons_Admin {
 
 		add_action( 'admin_menu', [$this, 'admin_pages'] );
 		add_action( 'init', [$this,'create_easyvideo_cpt'], 0 );
+
+		// Sidebar - before Metaboxs - Pages.
+		add_action( 'submitpost_box', [$this, 'callback__submitpost_box'] );
 	}
 
 	/**
@@ -231,5 +234,21 @@ class Easy_Coupons_Admin {
 		);
 		register_post_type( 'easy-video', $args );
 
+	}
+
+
+	/**
+	 * @param $post
+	 */
+	public function callback__submitpost_box( $post ) {
+		if ( 'easy-video' === $post->post_type && 'publish' === $post->post_status ) {
+			echo '<div class="sc-box">
+			<div class="postbox-header"><h2 class="hndle ui-sortable-handle">Video Shortcode</h2></div>
+			<div class="inside">
+			<input type="text" value="[easyvid id=', esc_attr( $post->ID ), ']" readonly>
+			<p>Use this shortcode to render a locked video</p>
+			</div>
+			</div>';
+		}
 	}
 }
