@@ -1,4 +1,6 @@
 jQuery(function ($) {
+
+	// Helper Function to process form data & make array
 	$.fn.form = function() {
 		var formData = {};
 		this.find('[name]').each(function() {
@@ -7,6 +9,7 @@ jQuery(function ($) {
 		return formData;
 	};
 
+	// Handle unlock button click. Show popup on click.
 	$('[data-easyvid]').click(function(){
 		var vidID = $(this).data('easyvid-id');
 
@@ -16,6 +19,7 @@ jQuery(function ($) {
 		$( form ).insertAfter( $(this));
 	});
 
+	// Handle unlock form submittion.
 	$('.easyvid').on('submit','form',function(e){
 		e.preventDefault();
 		var formData = $(this).form();

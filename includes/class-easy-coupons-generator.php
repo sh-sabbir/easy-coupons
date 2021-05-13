@@ -1,5 +1,31 @@
 <?php
+/**
+ * Handles Coupon Generation.
+ *
+ * A class definition that includes attributes and functions used across both the
+ * public-facing side of the site and the admin area.
+ *
+ * @link       https://iamsabbir.dev
+ * @since      1.0.0
+ *
+ * @package    Easy_Coupons
+ * @subpackage Easy_Coupons/includes
+ */
 
+/**
+ * Handles Coupon Generation.
+ *
+ * This is used to define internationalization, admin-specific hooks, and
+ * public-facing site hooks.
+ *
+ * Also maintains the unique identifier of this plugin as well as the current
+ * version of the plugin.
+ *
+ * @since      1.0.0
+ * @package    Easy_Coupons
+ * @subpackage Easy_Coupons/includes
+ * @author     Sabbir Hasan <sabbirshouvo@gmail.com>
+ */
 
 class Easy_Coupons_Generator{
 
@@ -36,7 +62,7 @@ class Easy_Coupons_Generator{
 
             while ($generated < $target) {
                 $item = $default;
-                //$item['id'] = $wpdb->insert_id;
+
                 $item['coupon'] = $this->generate_code();
                 $date = new DateTime($expire);
                 $item['expiry_date'] = date('Y-m-d H:i:s', $date->getTimestamp());
@@ -57,19 +83,19 @@ class Easy_Coupons_Generator{
                 $item = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table_name WHERE id = %d", $_REQUEST['id']), ARRAY_A);
                 if (!$item) {
                     $item = $default;
-                    $notice = __('Item not found', 'cltd_example');
+                    $notice = __('Item not found', 'easy-coupons');
                 }
             }
         }
 
         // here we adding our custom meta box
-        add_meta_box('persons_form_meta_box', 'Bulk Coupon Code Generator', [$this, 'cltd_example_persons_form_meta_box_handler'], 'person', 'normal', 'default');
+        add_meta_box('coupons_form_meta_box', 'Bulk Coupon Code Generator', [$this, 'easy_coupons_form_meta_box_handler'], 'new-coupon', 'normal', 'default');
 
         ?>
     <div class="wrap">
         <div class="icon32 icon32-posts-post" id="icon-edit"><br></div>
-        <h2><?php _e('Easy Coupons', 'cltd_example')?>
-        <a class="add-new-h2" href="<?php echo get_admin_url(get_current_blog_id(), 'admin.php?page=easy-coupons');?>"><?php _e('Back to list', 'cltd_example')?></a>
+        <h2><?php _e('Easy Coupons', 'easy-coupons')?>
+        <a class="add-new-h2" href="<?php echo get_admin_url(get_current_blog_id(), 'admin.php?page=easy-coupons');?>"><?php _e('Back to list', 'easy-coupons')?></a>
         </h2>
 
         <?php if (!empty($notice)): ?>
@@ -88,8 +114,8 @@ class Easy_Coupons_Generator{
                 <div id="post-body">
                     <div id="post-body-content">
                         <?php /* And here we call our custom meta box */ ?>
-                        <?php do_meta_boxes('person', 'normal', $item); ?>
-                        <input type="submit" value="<?php _e('Save', 'cltd_example')?>" id="submit" class="button-primary" name="submit">
+                        <?php do_meta_boxes('new-coupon', 'normal', $item); ?>
+                        <input type="submit" value="<?php _e('Save', 'easy-coupons')?>" id="submit" class="button-primary" name="submit">
                     </div>
                 </div>
             </div>
@@ -104,7 +130,7 @@ class Easy_Coupons_Generator{
      *
      * @param $item
      */
-    function cltd_example_persons_form_meta_box_handler($item)
+    function easy_coupons_form_meta_box_handler($item)
     {
         ?>
 
@@ -112,7 +138,7 @@ class Easy_Coupons_Generator{
         <tbody>
         <tr class="form-">
             <th valign="top" scope="row">
-                <label for="name"><?php _e('Number of Coupon', 'cltd_example')?></label>
+                <label for="code_count"><?php _e('Number of Coupon', 'easy-coupons')?></label>
             </th>
             <td>
                 <input id="code_count" name="code_count" type="number" min="1" max="100" value="1"
@@ -121,7 +147,7 @@ class Easy_Coupons_Generator{
         </tr>
         <tr class="form-">
             <th valign="top" scope="row">
-                <label for="email"><?php _e('Expiry Date', 'cltd_example')?></label>
+                <label for="expire_date"><?php _e('Expiry Date', 'easy-coupons')?></label>
             </th>
             <td>
                 <input id="expire_date" name="expire_date" type="date" class="regular-text" min="<?php echo date('Y-m-d'); ?>" required>
@@ -132,7 +158,11 @@ class Easy_Coupons_Generator{
     <?php
     }
 
-    function generate_code(){
+    /**
+     * This function generates coupon codes.
+     *
+     */
+    private function generate_code(){
         $bytes = random_bytes(2);
         // var_dump(bin2hex($bytes));
         return bin2hex($bytes);

@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The file that defines Data table List
+ * The file that defines Data table List for Coupons
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
@@ -102,7 +102,7 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 	 */
 	function column_actions( $item ) {
         $actions = [
-			'delete' => sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ), __( 'Delete', 'cltd_example' ) ),
+			'delete' => sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ), __( 'Delete', 'easy-coupons' ) ),
 		];
 
         //$actions['trash'] = '<a data-trash="yes" href="' . add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ) . '">' . __( 'Delete', WP_Statistics_Actions::$textdomain ) . '</a>';
@@ -136,11 +136,11 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 	function get_columns() {
 		$columns = [
 			'cb'    => '<input type="checkbox" />', //Render a checkbox instead of text
-			'coupon'  => __( 'Coupon', 'cltd_example' ),
-			'expiry_date' => __( 'Expiry Date', 'cltd_example' ),
-			'is_used'   => __( 'Status', 'cltd_example' ),
-			'created_at'   => __( 'Created at', 'cltd_example' ),
-			'actions'   => __( 'Actions', 'cltd_example' ),
+			'coupon'  => __( 'Coupon', 'easy-coupons' ),
+			'expiry_date' => __( 'Expiry Date', 'easy-coupons' ),
+			'is_used'   => __( 'Status', 'easy-coupons' ),
+			'created_at'   => __( 'Created at', 'easy-coupons' ),
+			'actions'   => __( 'Actions', 'easy-coupons' ),
 		];
 		return $columns;
 	}
@@ -189,6 +189,7 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 		global $wpdb;
 		$table_name = $wpdb->prefix . $this->databaseTable; // do not forget about tables prefix
 
+		//Handle Delete & Bulk-Delete Action
 		if ( 'delete' === $this->current_action() ) {
 			$ids = isset( $_REQUEST['id'] ) ? $_REQUEST['id'] : [];
 			if ( is_array( $ids ) ) {
@@ -200,17 +201,13 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 			}
 		}
 
-        if ( ( isset( $_POST['action2'] ) && $_POST['action2'] == 'delete-by-date')) {
-            $date = isset( $_REQUEST['date'] ) ? $_REQUEST['date'] : '';
+		//Handle Delete by date Action
+        if ( ( isset( $_REQUEST['delete-by-date'] ) && $_REQUEST['delete-by-date'] !== '')) {
+            $date = isset( $_REQUEST['delete-by-date'] ) ? $_REQUEST['delete-by-date'] : '';
 
             if ( ! empty( $date ) ) {
-
-                $date = $date.' 00:00:00';
-                // $wpdb->show_errors();
-				$wpdb->query( "DELETE FROM $table_name WHERE expiry_date='$date'" );
-                // $wpdb->print_error();
+				$wpdb->query( "DELETE FROM $table_name WHERE DATE(created_at)='$date'" );
 			}
-            //var_dump($date);
         }
 	}
 
@@ -224,9 +221,8 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 		if ( $which == "top" ) : ?>
 		<div class="alignleft actions bulkactions">
 			<p class="search-box">
-				<label for="post-search-input" class="screen-reader-text">Search Pages:</label>
-				<input type="date" value="<?php echo $search; ?>" name="date" id="post-search-input">
-				<input type="hidden" value="delete-by-date" name="action2" id="post-search-input">
+				<label for="post-search-input" class="screen-reader-text">Selective Delete:</label>
+				<input type="date" value="<?php echo $search; ?>" max="<?php echo date('Y-m-d');?>" name="delete-by-date" id="post-search-input">
 				<input type="submit" value="Find & Delete" class="button" id="search-submit" name="">
 			</p>
 		</div>

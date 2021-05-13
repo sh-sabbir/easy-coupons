@@ -1,7 +1,7 @@
 <?php
 
 /**
- * Fired during plugin activation
+ * Handles Ajax Calls.
  *
  * @link       https://iamsabbir.dev
  * @since      1.0.0
@@ -11,7 +11,7 @@
  */
 
 /**
- * Fired during plugin activation.
+ * Handles Ajax Calls.
  *
  * This class defines all code necessary to run during the plugin's activation.
  *
@@ -20,6 +20,7 @@
  * @subpackage Easy_Coupons/includes
  * @author     Sabbir Hasan <sabbirshouvo@gmail.com>
  */
+
 class Easy_Coupons_Ajax {
 
 	/**

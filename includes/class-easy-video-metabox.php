@@ -1,7 +1,30 @@
 <?php
-// Meta-Box Generator
-// How to use: $meta_value = get_post_meta( $post_id, $field_id, true );
-// Example: get_post_meta( get_the_ID(), "my_metabox_field", true );
+/**
+ * The file that defines Custom Post Type MetaBox
+ *
+ * A class definition that includes attributes and functions used across both the
+ * public-facing side of the site and the admin area.
+ *
+ * @link       https://iamsabbir.dev
+ * @since      1.0.0
+ *
+ * @package    Easy_Coupons
+ * @subpackage Easy_Coupons/includes
+ */
+
+/**
+ *
+ * This is used to define internationalization, admin-specific hooks, and
+ * public-facing site hooks.
+ *
+ * Also maintains the unique identifier of this plugin as well as the current
+ * version of the plugin.
+ *
+ * @since      1.0.0
+ * @package    Easy_Coupons
+ * @subpackage Easy_Coupons/includes
+ * @author     Sabbir Hasan <sabbirshouvo@gmail.com>
+ */
 
 class Eazy_Video_Metabox {
 

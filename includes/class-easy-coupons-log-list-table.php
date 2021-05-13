@@ -1,7 +1,7 @@
 <?php
 
 /**
- * The file that defines Data table List
+ * The file that defines Data table List for Activity Log
  *
  * A class definition that includes attributes and functions used across both the
  * public-facing side of the site and the admin area.
@@ -104,7 +104,7 @@ class Easy_Coupons_Log_List_Table extends WP_List_Table {
 	 */
 	function column_actions( $item ) {
         $actions = [
-			'delete' => sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ), __( 'Delete', 'cltd_example' ) ),
+			'delete' => sprintf( '<a href="%s">%s</a>', add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ), __( 'Delete', 'easy-coupons' ) ),
 		];
 
         //$actions['trash'] = '<a data-trash="yes" href="' . add_query_arg( array( 'page' => $_REQUEST['page'], 'action' => 'delete', '_wpnonce' => wp_create_nonce( 'delete_action_nonce' ), 'id' => $item['id'] ), admin_url( "admin.php" ) ) . '">' . __( 'Delete', WP_Statistics_Actions::$textdomain ) . '</a>';
@@ -138,11 +138,11 @@ class Easy_Coupons_Log_List_Table extends WP_List_Table {
 	function get_columns() {
 		$columns = [
 			'cb'    => '<input type="checkbox" />', //Render a checkbox instead of text
-			'coupon'  => __( 'Coupon', 'cltd_example' ),
-			'video_title' => __( 'Video Title', 'cltd_example' ),
-			'status'   => __( 'Type', 'cltd_example' ),
-			'created_at'   => __( 'Date Time', 'cltd_example' ),
-			'actions'   => __( 'Actions', 'cltd_example' ),
+			'coupon'  => __( 'Coupon', 'easy-coupons' ),
+			'video_title' => __( 'Video Title', 'easy-coupons' ),
+			'status'   => __( 'Type', 'easy-coupons' ),
+			'created_at'   => __( 'Date Time', 'easy-coupons' ),
+			'actions'   => __( 'Actions', 'easy-coupons' ),
 		];
 		return $columns;
 	}
@@ -222,9 +222,8 @@ class Easy_Coupons_Log_List_Table extends WP_List_Table {
 		if ( $which == "top" ) : ?>
 		<div class="alignleft actions bulkactions">
 			<p class="search-box">
-				<label for="post-search-input" class="screen-reader-text">Search Pages:</label>
+				<label for="post-search-input" class="screen-reader-text">Selective Delete:</label>
 				<input type="date" value="<?php echo $search; ?>" max="<?php echo date('Y-m-d');?>" name="delete-by-date" id="post-search-input">
-				<!-- <input type="hidden" value="1" name="delete-by-date" id="post-search-input"> -->
 				<input type="submit" value="Find & Delete" class="button" id="search-submit" name="">
 			</p>
 		</div>

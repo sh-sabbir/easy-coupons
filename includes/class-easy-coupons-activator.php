@@ -61,20 +61,20 @@ class Easy_Coupons_Activator {
 		dbDelta( $sql );
 	}
 
-	public function seed_database() {
+	public static function seed_database() {
 		global $wpdb;
 		$table_name = $wpdb->prefix . 'easy_coupon'; // do not forget about tables prefix
 		$wpdb->insert( $table_name, [
 			'coupon'  => 'f52s',
-			'expiry_date' => new DateTime(),
-			'is_used'   => 25,
-			'created_at' => new DateTime()
+			'expiry_date' => date('Y-m-d H:i:s'),
+			'is_used'   => 0,
+			'created_at' => date('Y-m-d H:i:s')
 		] );
 		$wpdb->insert( $table_name, [
 			'coupon'  => 's51q',
-			'expiry_date' => new DateTime(),
-			'is_used'   => 25,
-			'created_at' => new DateTime()
+			'expiry_date' => date('Y-m-d H:i:s'),
+			'is_used'   => 0,
+			'created_at' => date('Y-m-d H:i:s')
 		] );
 	}
 
