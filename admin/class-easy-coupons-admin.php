@@ -216,7 +216,7 @@ class Easy_Coupons_Admin {
 			'description' => __( '', 'textdomain' ),
 			'labels' => $labels,
 			'menu_icon' => 'dashicons-video-alt3',
-			'supports' => array('title','thumbnail', 'custom-fields'),
+			'supports' => array('title','thumbnail'),
 			'taxonomies' => array(),
 			'public' => false,
 			'show_ui' => true,
