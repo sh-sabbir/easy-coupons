@@ -1,5 +1,20 @@
 # Easy Coupons
 
+A WordPress plugin to lock video with coupon code.
+
+## Usage
+
+```
+- Create new locked video from "Dashboard -> Easy Videos"
+  - Enter Video title
+  - Enter Video url (only youtube/vimeo or other streaming embeed link will work)
+    - no support for self hosted video
+  - Select featured image. (It will be shown when video is locked.)
+  - Publish.
+
+- Copy the short code and it can be used anywhere to show a locked video.
+```
+
 ## Requirements (with estimation)
 
 
@@ -20,7 +35,15 @@
 - [x] Styling
   - [x] Create a custom WP theme with the stylesheet of your choice - **2 hours**
   - [x] Add animation to the success and failure states of entering a coupon - **1 hours**
-- [ ] Documentation - **4 hours**
-  - [ ] Add code comments as needed to improve the ability for another developer to finish this project
-  - [ ] Update the README with a brief written summary of what's been completed and what still needs to be done
-  - [ ] Update the README Any other feedback including which features could be refactored or improved
+- [x] Documentation - **4 hours**
+  - [x] Add code comments as needed to improve the ability for another developer to finish this project
+  - [x] Update the README with a brief written summary of what's been completed and what still needs to be done
+  - [x] Update the README Any other feedback including which features could be refactored or improved
+
+## Not complete
+- Test cases
+
+## Other feedbacks
+- `WP_LIST_TABLE`s can have screen options to improve experience. 
+- A `scheduled event` to automatically check and update expired coupon status.
+- Possible to hook the locking machanism to any post or page or custom post type.
