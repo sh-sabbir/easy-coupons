@@ -50,8 +50,9 @@ class Easy_Coupons_Public {
 	public function __construct( $plugin_name, $version ) {
 
 		$this->plugin_name = $plugin_name;
-		$this->version = $version;
+		$this->version     = $version;
 
+		add_shortcode( 'easyvid', [$this, 'easyvid_callback'] );
 	}
 
 	/**
@@ -61,19 +62,7 @@ class Easy_Coupons_Public {
 	 */
 	public function enqueue_styles() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Easy_Coupons_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Easy_Coupons_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
-
-		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/easy-coupons-public.css', array(), $this->version, 'all' );
+		wp_enqueue_style( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'css/easy-coupons-public.css', [], $this->version, 'all' );
 
 	}
 
@@ -82,22 +71,49 @@ class Easy_Coupons_Public {
 	 *
 	 * @since    1.0.0
 	 */
+	/**
+	 * @param $atts
+	 */
 	public function enqueue_scripts() {
 
-		/**
-		 * This function is provided for demonstration purposes only.
-		 *
-		 * An instance of this class should be passed to the run() function
-		 * defined in Easy_Coupons_Loader as all of the hooks are defined
-		 * in that particular class.
-		 *
-		 * The Easy_Coupons_Loader will then create the relationship
-		 * between the defined hooks and the functions defined in this
-		 * class.
-		 */
+		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/easy-coupons-public.js', [ 'jquery' ], $this->version, false );
 
-		wp_enqueue_script( $this->plugin_name, plugin_dir_url( __FILE__ ) . 'js/easy-coupons-public.js', array( 'jquery' ), $this->version, false );
+		wp_localize_script( $this->plugin_name, 'extra',
+			array( 
+				'ajaxurl' => admin_url( 'admin-ajax.php' ),
+			)
+		);
+	}
 
+	function easyvid_callback( $atts ) {
+		$atts = shortcode_atts( [
+			'id' => '',
+		], $atts, 'easyvid' );
+
+		$vid_id    = $atts['id'];
+		$vid_title = get_the_title($vid_id);
+		$vid_url   = get_post_meta($vid_id, 'video', true);
+		$vid_poster= get_the_post_thumbnail_url($vid_id, 'large');
+
+		//Check if already unlocked
+		$unlocked_list = urldecode($_COOKIE['unlocked_vids']);
+		$unlocked_list = stripslashes($unlocked_list);
+		$unlocked_list = json_decode($unlocked_list,true);
+
+		//Render
+		$output = "<div id='easyvid-{$vid_id}' class='easyvid'>";
+		$output .= "<h2 class='easyvid-title'>{$vid_title}</h2>";
+		$output .= "<div class='vidcontainer'>";
+		if(!null == $unlocked_list && in_array($vid_id,$unlocked_list)){
+			$output .= "<iframe class='responsive-iframe' src='{$vid_url}'></iframe>";
+		}else{
+			$output .= "<img class='responsive-iframe' src='{$vid_poster}'/>";
+			$output .= "<span data-easyvid data-easyvid-id='{$vid_id}' class='unlock'>Unlock Video</span>";
+		}
+		$output .= "</div>";
+		$output .= "</div>";
+
+		return $output;
 	}
 
 }

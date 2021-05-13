@@ -44,6 +44,7 @@ define( 'EASY_COUPONS_VERSION', '1.0.0' );
 function activate_easy_coupons() {
 	require_once plugin_dir_path( __FILE__ ) . 'includes/class-easy-coupons-activator.php';
 	Easy_Coupons_Activator::activate();
+	Easy_Coupons_Activator::seed_database();
 }
 
 /**

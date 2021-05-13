@@ -79,6 +79,7 @@ class Easy_Coupons {
 		$this->define_admin_hooks();
 		$this->define_public_hooks();
 
+		new Easy_Coupons_Ajax();
 	}
 
 	/**
@@ -110,6 +111,30 @@ class Easy_Coupons {
 		 * of the plugin.
 		 */
 		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-coupons-i18n.php';
+
+		/**
+		 * The class responsible for defining Data tables functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-coupons-ajax.php';
+
+		/**
+		 * The class responsible for defining Data tables functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-coupons-list-table.php';
+
+		/**
+		 * The class responsible for defining Data tables functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-coupons-log-list-table.php';
+
+		/**
+		 * The class responsible for defining Data tables functionality
+		 * of the plugin.
+		 */
+		require_once plugin_dir_path( dirname( __FILE__ ) ) . 'includes/class-easy-coupons-generator.php';
 
 		/**
 		 * The class responsible for defining all actions that occur in the admin area.
