@@ -74,6 +74,8 @@ class Easy_Coupons_Log_List_Table extends WP_List_Table {
             $val = '<span style="color:#00a32a;">Valid</span>';
         }elseif($item['status'] == 2){
             $val = '<span style="color:#b32d2e;">Already Used</span>';
+        }elseif($item['status'] == 4){
+            $val = '<span style="color:#dba617;">Expired</span>';
         }else{
             $val = '<span style="color:#b32d2e;">Not Found</span>';
         }

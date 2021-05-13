@@ -72,6 +72,8 @@ class Easy_Coupons_List_Table extends WP_List_Table {
 	function column_is_used( $item ) {
         if($item['is_used'] == 0){
             $val = '<span style="color:#00a32a;">Unused</span>';
+        }elseif($item['is_used'] == 2){
+            $val = '<span style="color:#dba617;">Expired</span>';
         }else{
             $val = '<span style="color:#b32d2e;">Used</span>';
         }

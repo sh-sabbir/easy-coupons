@@ -76,14 +76,23 @@ class Easy_Coupons_Ajax {
 		global $wpdb;
 		$table = $wpdb->prefix . 'easy_coupon';
 
+		if(($coupon == "ADMN" ) && is_user_logged_in() && current_user_can( 'administrator' )){
+			return 1;
+		}
+
 		$log_sts = 0;
 
 		$has_coupon = $wpdb->get_row($wpdb->prepare("SELECT * FROM $table WHERE coupon = '$coupon'"));
 
 		if($has_coupon){
 			$status = $has_coupon->is_used;
+			$expiry_date = $has_coupon->expiry_date;
+			$now = date("Y-m-d H:i:s");
 
-			if(0 === absint($status)){
+			if($now >= $expiry_date){
+				$log_sts = 4;
+				$this->coupon_use($coupon, true);
+			}elseif(0 === absint($status)){
 				$log_sts = 1;
 				$this->coupon_use($coupon);
 			}else{
@@ -96,11 +105,17 @@ class Easy_Coupons_Ajax {
 		return $log_sts;
 	}
 
-	function coupon_use($code){
+	function coupon_use($code, $is_expired = false ){
 		global $wpdb;
 		$table = $wpdb->prefix . 'easy_coupon';
 
-		$wpdb->update( $table, array( 'is_used' => 1),array('coupon'=>$code));
+		if($code != "ADMN"){
+			$status = 1;
+			if($is_expired){
+				$status = 2;
+			}
+			$wpdb->update( $table, array( 'is_used' => $status ),array('coupon'=>$code));
+		}
 	}
 
 	function log_entry($status, $coupon, $vid_id){
