@@ -44,6 +44,6 @@ A WordPress plugin to lock video with coupon code.
 - Test cases
 
 ## Other feedbacks
-- `WP_LIST_TABLE`s can have screen options to improve experience. 
+- `WP_LIST_TABLE` can have screen options to improve experience. 
 - A `scheduled event` to automatically check and update expired coupon status.
 - Possible to hook the locking machanism to any post or page or custom post type.
